@@ -1,67 +1,47 @@
 /**
  * script.js
- * Main application logic for Wemoo Premium SMM Panel
- * Handles UI interactions, theme management, and page-specific initialization.
+ * Main application logic for Wemoo SMM Panel
  */
 
 import * as api from './api.js';
+import { animate, spring, stagger } from 'motion';
 
-// --- Global State ---
+// --- Global State & Helpers ---
 const state = {
     user: null,
     balance: 0,
     services: [],
-    isLoading: false,
-    theme: localStorage.getItem('wemoo_theme') || 'dark'
+    isLoading: false
 };
 
 /**
- * Initialize Theme
- */
-function initTheme() {
-    const html = document.documentElement;
-    const themeToggle = document.getElementById('theme-toggle');
-    
-    // Apply initial theme
-    if (state.theme === 'dark') {
-        html.classList.add('dark');
-    } else {
-        html.classList.remove('dark');
-    }
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            state.theme = state.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('wemoo_theme', state.theme);
-            
-            if (state.theme === 'dark') {
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
-            }
-        });
-    }
-}
-
-/**
- * Show/Hide Loading Spinner with transition
+ * Show/Hide Loading Spinner
  */
 function setLoading(loading) {
     state.isLoading = loading;
     const loader = document.getElementById('loader');
+    const spinner = loader?.querySelector('.loader');
+    
     if (loader) {
         if (loading) {
             loader.style.display = 'flex';
-            setTimeout(() => loader.style.opacity = '1', 10);
+            animate(loader, { opacity: [0, 1] }, { duration: 0.3 });
+            if (spinner) {
+                animate(spinner, { scale: [0.5, 1], rotate: [0, 360] }, { 
+                    duration: 0.5, 
+                    easing: spring({ stiffness: 200, damping: 15 }) 
+                });
+            }
         } else {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 500);
+            animate(loader, { opacity: 0 }, { duration: 0.3 }).then(() => {
+                loader.style.display = 'none';
+            });
         }
     }
 }
 
 /**
- * Show Notification Toast
+ * Show Notification
  */
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
@@ -70,27 +50,36 @@ function showNotification(message, type = 'success') {
     notification.textContent = message;
     notification.className = `notification show ${type}`;
     
-    // Auto-hide after 4 seconds
+    animate(notification, 
+        { y: [50, 0], opacity: [0, 1], scale: [0.9, 1] }, 
+        { duration: 0.4, easing: spring({ stiffness: 300, damping: 20 }) }
+    );
+    
     setTimeout(() => {
-        notification.classList.remove('show');
-    }, 4000);
+        animate(notification, 
+            { y: 20, opacity: 0, scale: 0.95 }, 
+            { duration: 0.3 }
+        ).then(() => {
+            notification.classList.remove('show');
+        });
+    }, 3000);
 }
 
 /**
- * Authentication Guard
+ * Check if user is logged in
  */
 function checkAuth() {
     const user = localStorage.getItem('wemoo_user');
     const currentPage = window.location.pathname;
-    const isAuthPage = ['login.html', 'signup.html'].some(p => currentPage.endsWith(p));
-    const isPublicPage = ['/', 'index.html', 'services.html'].some(p => currentPage.endsWith(p) || currentPage === '/');
 
-    if (!user && !isAuthPage && !isPublicPage) {
+    // If not logged in and not on index or login page, redirect to login
+    if (!user && !['/', '/index.html', '/login.html', '/signup.html'].some(p => currentPage.endsWith(p))) {
         window.location.href = 'login.html';
         return false;
     }
 
-    if (user && isAuthPage) {
+    // If logged in and on login/signup page, redirect to dashboard
+    if (user && (currentPage.endsWith('login.html') || currentPage.endsWith('signup.html'))) {
         window.location.href = 'dashboard.html';
         return false;
     }
@@ -102,7 +91,7 @@ function checkAuth() {
 }
 
 /**
- * Update Balance across the UI
+ * Update Balance UI
  */
 async function updateBalanceUI() {
     try {
@@ -111,31 +100,31 @@ async function updateBalanceUI() {
             state.balance = data.balance;
             const balanceElements = document.querySelectorAll('.balance-value');
             balanceElements.forEach(el => {
-                el.textContent = `$${parseFloat(data.balance).toFixed(2)}`;
+                el.textContent = `${parseFloat(data.balance).toFixed(2)} MDH`;
             });
         }
     } catch (error) {
-        console.error("Balance update failed:", error);
+        console.error("Failed to fetch balance", error);
     }
 }
 
 /**
- * Sidebar & Mobile Navigation
+ * Sidebar Toggle for Mobile
  */
-function initNavigation() {
+function initSidebar() {
     const toggle = document.getElementById('mobile-toggle');
     const sidebar = document.getElementById('sidebar');
     const closeBtn = document.getElementById('sidebar-close');
 
     if (toggle && sidebar) {
         toggle.addEventListener('click', () => {
-            sidebar.classList.remove('translate-x-full');
+            sidebar.classList.add('open');
         });
     }
 
     if (closeBtn && sidebar) {
         closeBtn.addEventListener('click', () => {
-            sidebar.classList.add('translate-x-full');
+            sidebar.classList.remove('open');
         });
     }
 
@@ -148,28 +137,12 @@ function initNavigation() {
             window.location.href = 'index.html';
         });
     }
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                // Close mobile menu if open
-                if (sidebar) sidebar.classList.add('translate-x-full');
-            }
-        });
-    });
 }
 
-// --- Page Initializers ---
+// --- Page Specific Logic ---
 
 /**
- * Login Page
+ * Login Page Logic
  */
 function initLoginPage() {
     const loginForm = document.getElementById('login-form');
@@ -182,11 +155,11 @@ function initLoginPage() {
 
         if (username && password) {
             setLoading(true);
-            // Simulate API call
+            // Simulate login
             setTimeout(() => {
                 localStorage.setItem('wemoo_user', JSON.stringify({ username }));
                 window.location.href = 'dashboard.html';
-            }, 1000);
+            }, 800);
         } else {
             showNotification("Please fill in all fields", "error");
         }
@@ -194,7 +167,7 @@ function initLoginPage() {
 }
 
 /**
- * Signup Page
+ * Signup Page Logic
  */
 function initSignupPage() {
     const signupForm = document.getElementById('signup-form');
@@ -208,13 +181,14 @@ function initSignupPage() {
 
         if (username && email && password) {
             setLoading(true);
+            // Simulate registration
             setTimeout(() => {
                 localStorage.setItem('wemoo_user', JSON.stringify({ username, email }));
-                showNotification("Welcome to Wemoo Premium!");
+                showNotification("Account created successfully!");
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1000);
-            }, 1200);
+            }, 1000);
         } else {
             showNotification("Please fill in all fields", "error");
         }
@@ -222,94 +196,92 @@ function initSignupPage() {
 }
 
 /**
- * Services Page with Search & Filtering
+ * Dashboard Page Logic
+ */
+async function initDashboardPage() {
+    if (!window.location.pathname.endsWith('dashboard.html')) return;
+    
+    const userDisplay = document.getElementById('display-username');
+    if (userDisplay && state.user) {
+        userDisplay.textContent = state.user.username;
+    }
+
+    setLoading(true);
+    await updateBalanceUI();
+    setLoading(false);
+}
+
+/**
+ * Services Page Logic
  */
 async function initServicesPage() {
     if (!window.location.pathname.endsWith('services.html')) return;
 
     const tableBody = document.getElementById('services-table-body');
-    const searchInput = document.getElementById('service-search');
-    const categoryFilter = document.getElementById('category-filter');
     if (!tableBody) return;
 
     setLoading(true);
     try {
         let services = await api.getServices();
         
+        // Some APIs return an object instead of an array
         if (services && !Array.isArray(services) && typeof services === 'object') {
             services = Object.values(services);
         }
 
+        if (!services || !Array.isArray(services)) {
+            throw new Error("Invalid services data format");
+        }
+
         state.services = services;
-        renderServices(services);
-
-        // Populate Categories
-        if (categoryFilter) {
-            const categories = ['All', ...new Set(services.map(s => s.category))];
-            categoryFilter.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
-            
-            categoryFilter.addEventListener('change', filterServices);
-        }
-
-        if (searchInput) {
-            searchInput.addEventListener('input', filterServices);
-        }
-
-    } catch (error) {
-        console.error("Services Load Error:", error);
-        tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-20 text-rose-500 font-medium">${error.message}</td></tr>`;
-    } finally {
-        setLoading(false);
-    }
-
-    function filterServices() {
-        const query = searchInput?.value.toLowerCase() || '';
-        const category = categoryFilter?.value || 'All';
-
-        const filtered = state.services.filter(s => {
-            const matchesSearch = s.name.toLowerCase().includes(query) || s.service.toString().includes(query);
-            const matchesCategory = category === 'All' || s.category === category;
-            return matchesSearch && matchesCategory;
-        });
-
-        renderServices(filtered);
-    }
-
-    function renderServices(servicesToRender) {
+        
         tableBody.innerHTML = '';
-        if (servicesToRender.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-20 text-slate-400">No services found matching your criteria.</td></tr>';
+        if (services.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem;">No services available at the moment.</td></tr>';
             return;
         }
 
-        servicesToRender.forEach(service => {
+        services.forEach(service => {
             const row = document.createElement('tr');
-            row.className = "hover:bg-slate-50 dark:hover:bg-white/5 transition-colors";
             row.innerHTML = `
-                <td class="py-4 px-4 font-mono text-xs text-slate-400">${service.service || service.id}</td>
-                <td class="py-4 px-4 font-medium">${service.name}</td>
-                <td class="py-4 px-4"><span class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full uppercase">${service.category}</span></td>
-                <td class="py-4 px-4 font-bold">$${service.rate}</td>
-                <td class="py-4 px-4 text-slate-400">${service.min}</td>
-                <td class="py-4 px-4 text-slate-400">${service.max}</td>
-                <td class="py-4 px-4 text-right">
-                    <a href="order.html?service=${service.service || service.id}" class="btn btn-primary py-1.5 px-4 text-xs">Order</a>
+                <td>${service.service || service.id || '-'}</td>
+                <td>${service.name || '-'}</td>
+                <td>${service.category || '-'}</td>
+                <td>${service.rate || '0.00'} MDH</td>
+                <td>${service.min || '-'}</td>
+                <td>${service.max || '-'}</td>
+                <td>
+                    <a href="order.html?service=${service.service || service.id}" class="btn btn-primary btn-sm" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">Order</a>
                 </td>
             `;
             tableBody.appendChild(row);
         });
+    } catch (error) {
+        console.error("Services Load Error:", error);
+        
+        let errorMsg = error.message;
+        
+        tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem; color: var(--danger);">
+            <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid var(--danger); padding: 1.5rem; border-radius: 8px; max-width: 600px; margin: 0 auto;">
+                <h3 style="margin-bottom: 0.5rem;">Connection Error</h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">${errorMsg}</p>
+                <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1.5rem;">Retry Connection</button>
+            </div>
+        </td></tr>`;
+        showNotification("Failed to load services", "error");
+    } finally {
+        setLoading(false);
     }
 }
 
 /**
- * Order Page
+ * New Order Page Logic
  */
 async function initOrderPage() {
     if (!window.location.pathname.endsWith('order.html')) return;
 
     const serviceSelect = document.getElementById('service-select');
     const orderForm = document.getElementById('order-form');
-    const rateDisplay = document.getElementById('rate-display');
     if (!serviceSelect || !orderForm) return;
 
     setLoading(true);
@@ -317,6 +289,7 @@ async function initOrderPage() {
         const services = await api.getServices();
         state.services = services;
 
+        // Group by category
         const categories = [...new Set(services.map(s => s.category))];
         categories.forEach(cat => {
             const group = document.createElement('optgroup');
@@ -326,29 +299,33 @@ async function initOrderPage() {
             catServices.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.service;
-                opt.textContent = s.name;
-                opt.dataset.rate = s.rate;
+                opt.textContent = `${s.name} - ${s.rate} MDH/1k`;
                 group.appendChild(opt);
             });
             serviceSelect.appendChild(group);
         });
 
-        serviceSelect.addEventListener('change', () => {
-            const selected = serviceSelect.options[serviceSelect.selectedIndex];
-            if (rateDisplay && selected.dataset.rate) {
-                rateDisplay.textContent = `$${selected.dataset.rate} per 1,000`;
-            }
-        });
-
+        // Pre-select if ID in URL
         const urlParams = new URLSearchParams(window.location.search);
         const serviceId = urlParams.get('service');
         if (serviceId) {
             serviceSelect.value = serviceId;
-            serviceSelect.dispatchEvent(new Event('change'));
         }
 
     } catch (error) {
-        showNotification(error.message, "error");
+        console.error("Order Page Load Error:", error);
+        showNotification(error.message || "Failed to load services", "error");
+        
+        const container = document.querySelector('.form-card');
+        if (container) {
+            container.innerHTML = `
+                <div style="text-align:center; padding: 2rem; color: var(--danger);">
+                    <h3 style="margin-bottom: 1rem;">Connection Error</h3>
+                    <p style="margin-bottom: 1.5rem;">${error.message}</p>
+                    <button onclick="location.reload()" class="btn btn-primary">Retry</button>
+                </div>
+            `;
+        }
     } finally {
         setLoading(false);
     }
@@ -368,14 +345,14 @@ async function initOrderPage() {
         try {
             const result = await api.createOrder(serviceId, link, quantity);
             if (result.order) {
-                showNotification(`Order #${result.order} placed successfully!`);
+                showNotification(`Order placed successfully! ID: ${result.order}`);
                 orderForm.reset();
                 updateBalanceUI();
             } else {
                 showNotification(result.error || "Failed to place order", "error");
             }
         } catch (error) {
-            showNotification(error.message, "error");
+            showNotification(error.message || "An error occurred", "error");
         } finally {
             setLoading(false);
         }
@@ -383,34 +360,65 @@ async function initOrderPage() {
 }
 
 /**
- * Dashboard Page
+ * Orders Page Logic
  */
-async function initDashboardPage() {
-    if (!window.location.pathname.endsWith('dashboard.html')) return;
-    
-    const userDisplay = document.getElementById('display-username');
-    if (userDisplay && state.user) {
-        userDisplay.textContent = state.user.username;
-    }
+async function initOrdersPage() {
+    if (!window.location.pathname.endsWith('orders.html')) return;
 
+    const tableBody = document.getElementById('orders-table-body');
+    if (!tableBody) return;
+
+    // In a real app, we'd fetch the user's order history from our DB.
+    // For this demo, we'll show a "No orders found" or mock data since the API
+    // doesn't have a "list all my orders" endpoint without a backend tracking them.
+    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-secondary); padding: 2rem;">No recent orders found.</td></tr>';
+}
+
+/**
+ * Balance Page Logic
+ */
+async function initBalancePage() {
+    if (!window.location.pathname.endsWith('balance.html')) return;
+    
     setLoading(true);
     await updateBalanceUI();
     setLoading(false);
 }
 
-// --- Global Initialization ---
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initNavigation();
-    
     if (!checkAuth()) return;
 
+    // Apply page entrance animation
+    const mainContent = document.querySelector('.main-content') || document.querySelector('.hero');
+    if (mainContent) {
+        mainContent.classList.add('page-fade-in');
+        
+        // Animate children sequentially
+        const children = mainContent.querySelectorAll('.stat-card, .form-card, .table-container, h1, p');
+        animate(children, 
+            { opacity: [0, 1], y: [20, 0] }, 
+            { delay: stagger(0.05), duration: 0.5 }
+        );
+    }
+
+    // Add subtle hover animations to buttons that don't have them via CSS
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            animate(btn, { scale: 1.02 }, { duration: 0.2 });
+        });
+        btn.addEventListener('mouseleave', () => {
+            animate(btn, { scale: 1 }, { duration: 0.2 });
+        });
+    });
+
+    initSidebar();
     initLoginPage();
     initSignupPage();
     initDashboardPage();
     initServicesPage();
     initOrderPage();
-
-    // Hide loader after initial load
-    setTimeout(() => setLoading(false), 800);
+    initOrdersPage();
+    initBalancePage();
 });
