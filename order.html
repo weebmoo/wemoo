@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Order - Wemoo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="loader" class="loader-container"><span class="loader"></span></div>
+    <div id="notification" class="notification"></div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">Wemoo</div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="order.html" class="active"><i class="fas fa-plus-circle"></i> New Order</a></li>
+                <li><a href="services.html"><i class="fas fa-list"></i> Services</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Orders History</a></li>
+                <li><a href="balance.html"><i class="fas fa-wallet"></i> Add Funds</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-btn" class="btn btn-outline" style="width: 100%;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button id="mobile-toggle" class="mobile-toggle"><i class="fas fa-bars"></i></button>
+                    <h1 style="font-size: 1.5rem;">Place New Order</h1>
+                </div>
+                <div class="user-info">
+                    <div class="balance-badge">Balance: <span class="balance-value">$0.00</span></div>
+                </div>
+            </header>
+
+            <div class="form-card">
+                <form id="order-form">
+                    <div class="form-group">
+                        <label for="service-select">Select Service</label>
+                        <select id="service-select" class="form-control">
+                            <option value="">-- Select a service --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="link">Link</label>
+                        <input type="url" id="link" class="form-control" placeholder="https://instagram.com/profile" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" class="form-control" placeholder="Min: 100, Max: 10000" required>
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px dashed var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--text-secondary);">Price per 1000:</span>
+                            <span id="price-per-k" style="font-weight: 600;">$0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.1rem;">
+                            <span style="font-weight: 700;">Total Charge:</span>
+                            <span id="total-charge" style="color: var(--accent-color); font-weight: 800;">$0.00</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Place Order</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script type="module">
+        // Additional UI logic for order page
+        const serviceSelect = document.getElementById('service-select');
+        const quantityInput = document.getElementById('quantity');
+        const pricePerK = document.getElementById('price-per-k');
+        const totalCharge = document.getElementById('total-charge');
+
+        let currentService = null;
+
+        serviceSelect.addEventListener('change', () => {
+            const serviceId = serviceSelect.value;
+            // This is a bit hacky since state is in script.js, but for demo:
+            // In a real app we'd use a shared state or event bus.
+            // For now, we'll just parse the text content or re-fetch.
+            // Let's assume we can find it in the select text.
+            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const priceMatch = selectedText.match(/\$(\d+\.\d+)/);
+            if (priceMatch) {
+                const rate = parseFloat(priceMatch[1]);
+                pricePerK.textContent = `$${rate.toFixed(2)}`;
+                updateTotal(rate);
+            }
+        });
+
+        quantityInput.addEventListener('input', () => {
+            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const priceMatch = selectedText.match(/\$(\d+\.\d+)/);
+            if (priceMatch) {
+                updateTotal(parseFloat(priceMatch[1]));
+            }
+        });
+
+        function updateTotal(rate) {
+            const qty = parseInt(quantityInput.value) || 0;
+            const total = (qty / 1000) * rate;
+            totalCharge.textContent = `$${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
