@@ -1,40 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Wemoo</title>
+    <title>Sign Up | Wemoo Premium SMM</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;">
-    <div id="loader" class="loader-container"><span class="loader"></span></div>
+<body class="bg-white dark:bg-bg-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <span class="text-sm font-medium animate-pulse">Wemoo Premium</span>
+        </div>
+    </div>
+
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <div class="form-card" style="width: 100%; max-width: 400px;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h1 style="color: var(--accent-color); font-size: 2.5rem; font-weight: 800; letter-spacing: -1px;">Wemoo</h1>
-            <p style="color: var(--text-secondary); margin-top: 0.5rem;">Create your account</p>
-        </div>
+    <div class="min-h-screen flex flex-col justify-center items-center p-6 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-primary/5 blur-3xl rounded-full translate-y-1/2 translate-x-1/2 -z-10"></div>
+        
+        <div class="w-full max-w-md">
+            <div class="text-center mb-12">
+                <a href="index.html" class="inline-flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-black font-bold text-2xl shadow-lg shadow-primary/20">W</div>
+                    <span class="text-3xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                </a>
+                <h1 class="text-4xl font-display font-bold tracking-tight mb-4">Create Account</h1>
+                <p class="text-slate-500 dark:text-slate-400">Join the world's most advanced SMM platform.</p>
+            </div>
 
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="reg-username">Username</label>
-                <input type="text" id="reg-username" class="form-control" placeholder="Choose a username" required>
-            </div>
-            <div class="form-group">
-                <label for="reg-email">Email Address</label>
-                <input type="email" id="reg-email" class="form-control" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="reg-password">Password</label>
-                <input type="password" id="reg-password" class="form-control" placeholder="Create a password" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up</button>
-        </form>
+            <div class="card p-8 md:p-10">
+                <form id="signup-form" class="space-y-6">
+                    <div>
+                        <label for="reg-username" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Username</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="reg-username" placeholder="Choose a username" class="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all">
+                        </div>
+                    </div>
 
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Already have an account? <a href="login.html" style="color: var(--accent-color); text-decoration: none;">Login</a></p>
-            <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; display: block; margin-top: 1rem;">&larr; Back to Home</a>
+                    <div>
+                        <label for="reg-email" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Email Address</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="email" id="reg-email" placeholder="Enter your email" class="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="reg-password" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="password" id="reg-password" placeholder="Create a strong password" class="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <div class="text-sm">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" class="mt-1 w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary">
+                            <span class="text-slate-500 dark:text-slate-400">I agree to the <a href="terms.html" class="text-primary font-bold hover:underline">Terms of Service</a> and <a href="privacy.html" class="text-primary font-bold hover:underline">Privacy Policy</a>.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full py-4 text-lg">Create Account <i class="fas fa-user-plus ml-2"></i></button>
+                </form>
+
+                <div class="mt-10 pt-8 border-t border-slate-100 dark:border-border-dark text-center">
+                    <p class="text-slate-500 dark:text-slate-400">Already have an account? <a href="login.html" class="text-primary font-bold hover:underline">Log in here</a></p>
+                </div>
+            </div>
+
+            <div class="mt-12 flex justify-center gap-6 text-slate-400 text-sm font-medium">
+                <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+                <a href="terms.html" class="hover:text-primary transition-colors">Terms</a>
+                <a href="privacy.html" class="hover:text-primary transition-colors">Privacy</a>
+                <button id="theme-toggle" class="hover:text-primary transition-colors">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+            </div>
         </div>
     </div>
 

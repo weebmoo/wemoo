@@ -1,51 +1,65 @@
 /**
  * api.js
- * Handles all API requests to the SMM Panel via the server proxy.
+ * Handles all API requests to the SMM Panel.
+ * Optimized for static hosting (GitHub Pages) with CORS handling.
  */
 
 const API_KEY = "180cc445525374a025360284a4c519b3";
+const API_URL = "https://yoxok.com/api/v2";
 
 /**
- * Generic function to call the SMM API via our proxy
+ * Generic function to call the SMM API.
+ * Uses a CORS proxy fallback if the direct call is blocked by the browser.
  */
 async function callApi(action, params = {}) {
+    const payload = {
+        key: API_KEY,
+        action: action,
+        ...params
+    };
+
+    const searchParams = new URLSearchParams(payload).toString();
+
     try {
-        const response = await fetch("/api/proxy", {
+        // Attempt 1: Direct call (Works if API allows CORS or if running through a local proxy)
+        console.log(`Attempting direct API call for: ${action}`);
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify({
-                key: API_KEY,
-                action: action,
-                ...params
-            })
+            body: searchParams
         });
 
-        if (response.status === 404 || response.status === 405) {
-            // This happens if the backend server isn't running or the route is missing
-            throw new Error(`Proxy Error (${response.status}): The backend server is not reachable. If you are using 'Live Server', please switch to the App URL provided in the preview.`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            return data;
         }
-
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
-        }
-
-        const data = await response.json();
         
-        if (data.error) {
-            throw new Error(data.error);
-        }
+        throw new Error(`Direct call failed with status ${response.status}`);
 
-        if (data.message && !data.status) {
-            // Some APIs return errors in a 'message' field
-            throw new Error(data.message);
-        }
+    } catch (directError) {
+        console.warn("Direct API call failed (likely CORS). Attempting via CORS Proxy...", directError);
 
-        return data;
-    } catch (error) {
-        console.error(`API Error (${action}):`, error);
-        throw error;
+        try {
+            // Attempt 2: Via AllOrigins CORS Proxy (Best for static sites like GitHub Pages)
+            // Note: AllOrigins works best with GET for simple proxies
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`${API_URL}?${searchParams}`)}`;
+            
+            const proxyResponse = await fetch(proxyUrl);
+            if (!proxyResponse.ok) throw new Error("CORS Proxy unreachable");
+
+            const proxyData = await proxyResponse.json();
+            const data = JSON.parse(proxyData.contents);
+
+            if (data.error) throw new Error(data.error);
+            return data;
+
+        } catch (proxyError) {
+            console.error("All API attempts failed:", proxyError);
+            throw new Error("Unable to connect to SMM API. This is usually due to CORS restrictions on static hosting. Please try again or use a browser extension that allows CORS.");
+        }
     }
 }
 

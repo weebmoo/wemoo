@@ -1,112 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Order - Wemoo</title>
+    <title>New Order | Wemoo Premium SMM</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="loader" class="loader-container"><span class="loader"></span></div>
+<body class="bg-white dark:bg-bg-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <span class="text-sm font-medium animate-pulse">Wemoo Premium</span>
+        </div>
+    </div>
+
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">Wemoo</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="order.html" class="active"><i class="fas fa-plus-circle"></i> New Order</a></li>
-                <li><a href="services.html"><i class="fas fa-list"></i> Services</a></li>
-                <li><a href="orders.html"><i class="fas fa-history"></i> Orders History</a></li>
-                <li><a href="balance.html"><i class="fas fa-wallet"></i> Add Funds</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#" id="logout-btn" class="btn btn-outline" style="width: 100%;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-card-dark border-r border-slate-100 dark:border-border-dark translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="flex flex-col h-full p-6">
+                <div class="flex items-center justify-between mb-12">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-lg">W</div>
+                        <span class="text-xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                    </a>
+                    <button id="sidebar-close" class="lg:hidden text-xl p-2"><i class="fas fa-times"></i></button>
+                </div>
+
+                <nav class="flex-grow space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-chart-pie w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="order.html" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary/10 text-primary font-bold transition-all">
+                        <i class="fas fa-plus-circle w-6"></i>
+                        <span>New Order</span>
+                    </a>
+                    <a href="orders.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-list-ul w-6"></i>
+                        <span>Orders History</span>
+                    </a>
+                    <a href="services.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-tags w-6"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="balance.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-wallet w-6"></i>
+                        <span>Add Funds</span>
+                    </a>
+                </nav>
+
+                <div class="mt-auto pt-6 border-t border-slate-100 dark:border-border-dark">
+                    <a href="#" id="logout-btn" class="flex items-center gap-4 px-4 py-3 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
+                        <i class="fas fa-sign-out-alt w-6"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
             </div>
         </aside>
 
-        <main class="main-content">
-            <header class="top-header">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <button id="mobile-toggle" class="mobile-toggle"><i class="fas fa-bars"></i></button>
-                    <h1 style="font-size: 1.5rem;">Place New Order</h1>
+        <!-- Main Content -->
+        <main class="flex-grow lg:ml-72 p-6 md:p-10">
+            <!-- Top Header -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+                <div>
+                    <h1 class="text-3xl font-display font-bold tracking-tight mb-2">Create New Order</h1>
+                    <p class="text-slate-500 dark:text-slate-400">Select a service and boost your social presence instantly.</p>
                 </div>
-                <div class="user-info">
-                    <div class="balance-badge">Balance: <span class="balance-value">$0.00</span></div>
+                
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <button id="theme-toggle" class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <div class="flex items-center gap-4 px-6 py-3 bg-primary/10 border border-primary/20 rounded-2xl flex-grow md:flex-grow-0">
+                        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest font-bold text-primary/60">Balance</div>
+                            <div class="text-xl font-display font-bold balance-value">$0.00</div>
+                        </div>
+                    </div>
+                    <button id="mobile-toggle" class="lg:hidden p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </header>
 
-            <div class="form-card">
-                <form id="order-form">
-                    <div class="form-group">
-                        <label for="service-select">Select Service</label>
-                        <select id="service-select" class="form-control">
-                            <option value="">-- Select a service --</option>
-                        </select>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="card p-8 md:p-12">
+                        <form id="order-form" class="space-y-8">
+                            <div>
+                                <label for="service-select" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Select Service</label>
+                                <select id="service-select" class="w-full px-6 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Choose a service...</option>
+                                </select>
+                                <div id="rate-display" class="mt-3 text-sm text-primary font-bold"></div>
+                            </div>
+
+                            <div>
+                                <label for="link" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Link / URL</label>
+                                <input type="url" id="link" placeholder="https://instagram.com/p/..." class="w-full px-6 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label for="quantity" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Quantity</label>
+                                    <input type="number" id="quantity" placeholder="Min: 100" class="w-full px-6 py-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all">
+                                </div>
+                                <div class="flex flex-col justify-end">
+                                    <div class="p-4 bg-primary/5 border border-primary/10 rounded-2xl">
+                                        <div class="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">Estimated Total</div>
+                                        <div class="text-2xl font-display font-bold text-primary">$0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-full py-5 text-xl">Place Order <i class="fas fa-paper-plane ml-2"></i></button>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="link">Link</label>
-                        <input type="url" id="link" class="form-control" placeholder="https://instagram.com/profile" required>
+                </div>
+
+                <div class="lg:col-span-1 space-y-8">
+                    <div class="card">
+                        <h3 class="text-xl font-display font-bold mb-6">Order Instructions</h3>
+                        <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                            <li class="flex gap-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span>Make sure your profile or post is <strong>public</strong>.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span>Double check the link before placing the order.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span>Do not place multiple orders for the same link at once.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span>Orders are processed automatically 24/7.</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" class="form-control" placeholder="Min: 100, Max: 10000" required>
+
+                    <div class="card bg-primary/5 border-primary/20">
+                        <h3 class="text-xl font-display font-bold mb-4">Need Help?</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Our support team is available 24/7 to assist you with your orders.</p>
+                        <a href="contact.html" class="btn btn-outline w-full py-3 text-sm">Open Support Ticket</a>
                     </div>
-                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px dashed var(--border-color);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span style="color: var(--text-secondary);">Price per 1000:</span>
-                            <span id="price-per-k" style="font-weight: 600;">$0.00</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 1.1rem;">
-                            <span style="font-weight: 700;">Total Charge:</span>
-                            <span id="total-charge" style="color: var(--accent-color); font-weight: 800;">$0.00</span>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Place Order</button>
-                </form>
+                </div>
             </div>
         </main>
     </div>
 
     <script type="module" src="script.js"></script>
-    <script type="module">
-        // Additional UI logic for order page
-        const serviceSelect = document.getElementById('service-select');
-        const quantityInput = document.getElementById('quantity');
-        const pricePerK = document.getElementById('price-per-k');
-        const totalCharge = document.getElementById('total-charge');
-
-        let currentService = null;
-
-        serviceSelect.addEventListener('change', () => {
-            const serviceId = serviceSelect.value;
-            // This is a bit hacky since state is in script.js, but for demo:
-            // In a real app we'd use a shared state or event bus.
-            // For now, we'll just parse the text content or re-fetch.
-            // Let's assume we can find it in the select text.
-            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
-            const priceMatch = selectedText.match(/\$(\d+\.\d+)/);
-            if (priceMatch) {
-                const rate = parseFloat(priceMatch[1]);
-                pricePerK.textContent = `$${rate.toFixed(2)}`;
-                updateTotal(rate);
-            }
-        });
-
-        quantityInput.addEventListener('input', () => {
-            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
-            const priceMatch = selectedText.match(/\$(\d+\.\d+)/);
-            if (priceMatch) {
-                updateTotal(parseFloat(priceMatch[1]));
-            }
-        });
-
-        function updateTotal(rate) {
-            const qty = parseInt(quantityInput.value) || 0;
-            const total = (qty / 1000) * rate;
-            totalCharge.textContent = `$${total.toFixed(2)}`;
-        }
-    </script>
 </body>
 </html>

@@ -1,78 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Wemoo</title>
+    <title>Dashboard | Wemoo Premium SMM</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="loader" class="loader-container"><span class="loader"></span></div>
+<body class="bg-white dark:bg-bg-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <span class="text-sm font-medium animate-pulse">Wemoo Premium</span>
+        </div>
+    </div>
+
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <div class="app-container">
+    <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">Wemoo</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="order.html"><i class="fas fa-plus-circle"></i> New Order</a></li>
-                <li><a href="services.html"><i class="fas fa-list"></i> Services</a></li>
-                <li><a href="orders.html"><i class="fas fa-history"></i> Orders History</a></li>
-                <li><a href="balance.html"><i class="fas fa-wallet"></i> Add Funds</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#" id="logout-btn" class="btn btn-outline" style="width: 100%;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-card-dark border-r border-slate-100 dark:border-border-dark translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="flex flex-col h-full p-6">
+                <div class="flex items-center justify-between mb-12">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-lg">W</div>
+                        <span class="text-xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                    </a>
+                    <button id="sidebar-close" class="lg:hidden text-xl p-2"><i class="fas fa-times"></i></button>
+                </div>
+
+                <nav class="flex-grow space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary/10 text-primary font-bold transition-all">
+                        <i class="fas fa-chart-pie w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="order.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-plus-circle w-6"></i>
+                        <span>New Order</span>
+                    </a>
+                    <a href="orders.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-list-ul w-6"></i>
+                        <span>Orders History</span>
+                    </a>
+                    <a href="services.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-tags w-6"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="balance.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-wallet w-6"></i>
+                        <span>Add Funds</span>
+                    </a>
+                </nav>
+
+                <div class="mt-auto pt-6 border-t border-slate-100 dark:border-border-dark">
+                    <a href="#" id="logout-btn" class="flex items-center gap-4 px-4 py-3 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
+                        <i class="fas fa-sign-out-alt w-6"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-header">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <button id="mobile-toggle" class="mobile-toggle"><i class="fas fa-bars"></i></button>
-                    <h1 style="font-size: 1.5rem;">Dashboard</h1>
+        <main class="flex-grow lg:ml-72 p-6 md:p-10">
+            <!-- Top Header -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+                <div>
+                    <h1 class="text-3xl font-display font-bold tracking-tight mb-2">Welcome back, <span id="display-username" class="text-primary">User</span>!</h1>
+                    <p class="text-slate-500 dark:text-slate-400">Here's what's happening with your account today.</p>
                 </div>
-                <div class="user-info">
-                    <div class="balance-badge">Balance: <span class="balance-value">$0.00</span></div>
-                    <span id="display-username" style="font-weight: 600;">User</span>
+                
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <button id="theme-toggle" class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <div class="flex items-center gap-4 px-6 py-3 bg-primary/10 border border-primary/20 rounded-2xl flex-grow md:flex-grow-0">
+                        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest font-bold text-primary/60">Balance</div>
+                            <div class="text-xl font-display font-bold balance-value">$0.00</div>
+                        </div>
+                    </div>
+                    <button id="mobile-toggle" class="lg:hidden p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </header>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Balance</div>
-                    <div class="stat-value balance-value">$0.00</div>
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="card flex items-center gap-6">
+                    <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div>
+                        <div class="text-slate-500 text-xs uppercase tracking-widest font-bold mb-1">Total Orders</div>
+                        <div class="text-3xl font-display font-bold">1,284</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Active Orders</div>
-                    <div class="stat-value">0</div>
+                <div class="card flex items-center gap-6">
+                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <div class="text-slate-500 text-xs uppercase tracking-widest font-bold mb-1">Completed</div>
+                        <div class="text-3xl font-display font-bold">1,250</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Total Spent</div>
-                    <div class="stat-value">$0.00</div>
+                <div class="card flex items-center gap-6">
+                    <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="text-slate-500 text-xs uppercase tracking-widest font-bold mb-1">Processing</div>
+                        <div class="text-3xl font-display font-bold">34</div>
+                    </div>
                 </div>
             </div>
 
-            <h2 style="margin-bottom: 1.5rem;">Quick Actions</h2>
-            <div class="stats-grid">
-                <a href="order.html" class="stat-card" style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
-                    <i class="fas fa-plus-circle" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
-                    <div style="font-weight: 700;">New Order</div>
-                </a>
-                <a href="services.html" class="stat-card" style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
-                    <i class="fas fa-search" style="font-size: 2.5rem; color: #3498db; margin-bottom: 1rem;"></i>
-                    <div style="font-weight: 700;">Browse Services</div>
-                </a>
-                <a href="orders.html" class="stat-card" style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
-                    <i class="fas fa-clipboard-list" style="font-size: 2.5rem; color: #f1c40f; margin-bottom: 1rem;"></i>
-                    <div style="font-weight: 700;">Order Status</div>
-                </a>
-                <a href="balance.html" class="stat-card" style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
-                    <i class="fas fa-dollar-sign" style="font-size: 2.5rem; color: #2ecc71; margin-bottom: 1rem;"></i>
-                    <div style="font-weight: 700;">Add Funds</div>
-                </a>
+            <!-- Recent Activity & Quick Order -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-display font-bold">Recent Orders</h3>
+                        <a href="orders.html" class="text-primary text-sm font-bold hover:underline">View All</a>
+                    </div>
+                    <div class="card p-0 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 dark:bg-white/2 border-b border-slate-100 dark:border-border-dark">
+                                    <tr>
+                                        <th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order ID</th>
+                                        <th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Service</th>
+                                        <th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                                        <th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+                                    <tr>
+                                        <td class="py-4 px-6 font-mono text-xs text-slate-400">#82934</td>
+                                        <td class="py-4 px-6 font-medium">Instagram Followers [Real]</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold rounded-full uppercase">Completed</span></td>
+                                        <td class="py-4 px-6 text-right font-bold">$12.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 font-mono text-xs text-slate-400">#82931</td>
+                                        <td class="py-4 px-6 font-medium">TikTok Views [Instant]</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 bg-blue-500/10 text-blue-500 text-[10px] font-bold rounded-full uppercase">Processing</span></td>
+                                        <td class="py-4 px-6 text-right font-bold">$0.85</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 font-mono text-xs text-slate-400">#82928</td>
+                                        <td class="py-4 px-6 font-medium">YouTube Watch Time</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold rounded-full uppercase">Pending</span></td>
+                                        <td class="py-4 px-6 text-right font-bold">$45.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <h3 class="text-2xl font-display font-bold mb-6">Quick Order</h3>
+                    <div class="card">
+                        <div class="flex flex-col gap-4">
+                            <div class="p-4 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-border-dark flex items-center gap-4 cursor-pointer hover:border-primary transition-all">
+                                <div class="w-12 h-12 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-xl flex items-center justify-center text-white text-xl">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">Instagram Followers</div>
+                                    <div class="text-xs text-slate-500">From $0.01 / 1k</div>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-border-dark flex items-center gap-4 cursor-pointer hover:border-primary transition-all">
+                                <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-white text-xl border border-white/10">
+                                    <i class="fab fa-tiktok text-[#00f2ea]"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">TikTok Views</div>
+                                    <div class="text-xs text-slate-500">From $0.05 / 1k</div>
+                                </div>
+                            </div>
+                            <a href="order.html" class="btn btn-primary w-full mt-4">Create New Order</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

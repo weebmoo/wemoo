@@ -1,56 +1,311 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wemoo - Best SMM Panel</title>
+    <title>Wemoo Premium SMM | Boost Your Social Presence</title>
+    <meta name="description" content="The world's most advanced and reliable SMM Panel. Boost your social presence with premium quality services, instant delivery, and 24/7 expert support.">
+    <meta name="keywords" content="smm panel, social media marketing, instagram followers, tiktok views, youtube subscribers, wemoo smm">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="loader" class="loader-container"><span class="loader"></span></div>
+<body class="bg-white dark:bg-bg-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <span class="text-sm font-medium animate-pulse">Wemoo Premium</span>
+        </div>
+    </div>
+
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <nav style="padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
-        <div class="sidebar-header" style="padding: 0;">Wemoo</div>
-        <div style="display: flex; gap: 1rem;">
-            <a href="login.html" class="btn btn-outline">Login</a>
-            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black font-bold text-xl shadow-lg shadow-primary/20">W</div>
+                    <span class="text-2xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8 font-medium">
+                    <a href="#features" class="hover:text-primary transition-colors">Features</a>
+                    <a href="#services" class="hover:text-primary transition-colors">Services</a>
+                    <a href="#pricing" class="hover:text-primary transition-colors">Pricing</a>
+                    <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors" aria-label="Toggle Theme">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <div class="hidden sm:flex items-center gap-3">
+                        <a href="login.html" class="btn btn-outline py-2 px-5 text-sm">Login</a>
+                        <a href="signup.html" class="btn btn-primary py-2 px-5 text-sm">Get Started</a>
+                    </div>
+                    <button id="mobile-toggle" class="md:hidden p-2 text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <main class="hero">
-        <h1>Best SMM Panel for Social Media Growth</h1>
-        <p>Boost your social media presence instantly with our high-quality, affordable SMM services. Fast delivery, 24/7 support, and the best prices in the market.</p>
-        <div style="display: flex; gap: 1rem;">
-            <a href="signup.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">Get Started Now</a>
-            <a href="#services" class="btn btn-outline" style="padding: 1rem 2.5rem; font-size: 1.1rem;">View Services</a>
+    <!-- Mobile Menu -->
+    <div id="sidebar" class="fixed inset-0 z-[60] bg-white dark:bg-bg-dark translate-x-full transition-transform duration-300 md:hidden">
+        <div class="p-6 flex flex-col h-full">
+            <div class="flex justify-between items-center mb-12">
+                <span class="text-2xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                <button id="sidebar-close" class="text-2xl p-2"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="flex flex-col gap-6 text-xl font-medium">
+                <a href="#features" class="hover:text-primary transition-colors">Features</a>
+                <a href="#services" class="hover:text-primary transition-colors">Services</a>
+                <a href="#pricing" class="hover:text-primary transition-colors">Pricing</a>
+                <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
+            </div>
+            <div class="mt-auto flex flex-col gap-4">
+                <a href="login.html" class="btn btn-outline w-full">Login</a>
+                <a href="signup.html" class="btn btn-primary w-full">Sign Up</a>
+            </div>
         </div>
-    </main>
+    </div>
 
-    <section id="services" style="padding: 5rem 2rem; max-width: 1200px; margin: 0 auto;">
-        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">Our Services</h2>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fab fa-instagram" style="font-size: 2rem; color: #E1306C; margin-bottom: 1rem;"></i>
-                <h3>Instagram</h3>
-                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Followers, Likes, Views, and Comments for your profile.</p>
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-20 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-8 animate-bounce">
+                <i class="fas fa-bolt"></i>
+                <span>Instant Delivery Enabled</span>
             </div>
-            <div class="stat-card">
-                <i class="fab fa-tiktok" style="font-size: 2rem; color: #00f2ea; margin-bottom: 1rem;"></i>
-                <h3>TikTok</h3>
-                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Go viral with our TikTok followers and high-retention views.</p>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter mb-8 leading-[0.9]">
+                Elevate Your Social <br> <span class="text-primary">Presence Instantly.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+                Boost your social media growth with the world's most advanced SMM panel. High-quality followers, likes, and views delivered in seconds.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="signup.html" class="btn btn-primary px-10 py-4 text-lg w-full sm:w-auto">
+                    Start Growing Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#services" class="btn btn-outline px-10 py-4 text-lg w-full sm:w-auto">
+                    View Services
+                </a>
             </div>
-            <div class="stat-card">
-                <i class="fab fa-youtube" style="font-size: 2rem; color: #FF0000; margin-bottom: 1rem;"></i>
-                <h3>YouTube</h3>
-                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Subscribers, Watch Time, and Likes to grow your channel.</p>
+
+            <div class="mt-20 relative max-w-5xl mx-auto">
+                <div class="animate-float">
+                    <img src="https://picsum.photos/seed/dashboard/1200/800" alt="Dashboard Preview" class="rounded-3xl shadow-2xl border border-white/10" referrerPolicy="no-referrer">
+                </div>
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full"></div>
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full"></div>
             </div>
         </div>
     </section>
 
-    <footer style="padding: 3rem 2rem; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary);">
-        <p>&copy; 2024 Wemoo SMM Panel. All rights reserved.</p>
+    <!-- Stats Section -->
+    <section class="py-20 border-y border-slate-100 dark:border-border-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-display font-bold mb-2">500K+</div>
+                    <div class="text-slate-500 text-sm uppercase tracking-widest font-semibold">Active Users</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-display font-bold mb-2">10M+</div>
+                    <div class="text-slate-500 text-sm uppercase tracking-widest font-semibold">Orders Completed</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-display font-bold mb-2">2.5K+</div>
+                    <div class="text-slate-500 text-sm uppercase tracking-widest font-semibold">Total Services</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-display font-bold mb-2">99.9%</div>
+                    <div class="text-slate-500 text-sm uppercase tracking-widest font-semibold">Uptime Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 tracking-tight">Why Choose Wemoo?</h2>
+                <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">We provide professional-grade social media marketing solutions that are fast, reliable, and affordable.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card group hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4">Instant Delivery</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Our automated system processes your orders immediately. No waiting, just results.</p>
+                </div>
+                <div class="card group hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4">Secure Payments</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Multiple secure payment gateways including Crypto, PayPal, and Credit Cards.</p>
+                </div>
+                <div class="card group hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl mb-6 group-hover:bg-primary group-hover:text-black transition-colors">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4">24/7 Support</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Our expert support team is always available to help you with any questions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section id="services" class="py-32 bg-slate-50 dark:bg-card-dark/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 tracking-tight">Our Premium Services</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg">Explore our wide range of social media services tailored for every platform.</p>
+                </div>
+                <a href="services.html" class="btn btn-outline">View All Services <i class="fas fa-arrow-right ml-2"></i></a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Instagram -->
+                <div class="card flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-3xl flex items-center justify-center text-white text-4xl mb-6 shadow-xl">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Instagram</h4>
+                    <p class="text-slate-500 text-sm mb-6">Followers, Likes, Views, Reels</p>
+                    <div class="mt-auto w-full pt-6 border-t border-slate-100 dark:border-border-dark flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Starts from</span>
+                        <span class="text-primary font-bold">$0.01</span>
+                    </div>
+                </div>
+                <!-- TikTok -->
+                <div class="card flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-black rounded-3xl flex items-center justify-center text-white text-4xl mb-6 shadow-xl border border-white/10">
+                        <i class="fab fa-tiktok text-[#00f2ea]"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">TikTok</h4>
+                    <p class="text-slate-500 text-sm mb-6">Followers, Views, Likes, Shares</p>
+                    <div class="mt-auto w-full pt-6 border-t border-slate-100 dark:border-border-dark flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Starts from</span>
+                        <span class="text-primary font-bold">$0.05</span>
+                    </div>
+                </div>
+                <!-- YouTube -->
+                <div class="card flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-[#FF0000] rounded-3xl flex items-center justify-center text-white text-4xl mb-6 shadow-xl">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">YouTube</h4>
+                    <p class="text-slate-500 text-sm mb-6">Subscribers, Watch Time, Likes</p>
+                    <div class="mt-auto w-full pt-6 border-t border-slate-100 dark:border-border-dark flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Starts from</span>
+                        <span class="text-primary font-bold">$1.20</span>
+                    </div>
+                </div>
+                <!-- Twitter/X -->
+                <div class="card flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-slate-900 rounded-3xl flex items-center justify-center text-white text-4xl mb-6 shadow-xl">
+                        <i class="fab fa-x-twitter"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Twitter / X</h4>
+                    <p class="text-slate-500 text-sm mb-6">Followers, Retweets, Likes</p>
+                    <div class="mt-auto w-full pt-6 border-t border-slate-100 dark:border-border-dark flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Starts from</span>
+                        <span class="text-primary font-bold">$0.15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-primary rounded-[3rem] p-12 md:p-24 text-center text-black relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 blur-3xl rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                
+                <h2 class="text-4xl md:text-6xl font-display font-bold mb-8 tracking-tighter">Ready to dominate <br> social media?</h2>
+                <p class="text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto text-black/70">Join thousands of influencers and businesses who trust Wemoo for their growth.</p>
+                <a href="signup.html" class="btn bg-black text-white hover:bg-slate-800 px-12 py-5 text-xl">Create Free Account</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-24 pb-12 border-t border-slate-100 dark:border-border-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-lg">W</div>
+                        <span class="text-xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 mb-8">The world's leading SMM panel for influencers and businesses.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-black transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-black transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-black transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-black transition-all"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Quick Links</h5>
+                    <ul class="flex flex-col gap-4 text-slate-500 dark:text-slate-400">
+                        <li><a href="#services" class="hover:text-primary transition-colors">Services</a></li>
+                        <li><a href="api-docs.html" class="hover:text-primary transition-colors">API Documentation</a></li>
+                        <li><a href="blog.html" class="hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="affiliates.html" class="hover:text-primary transition-colors">Affiliate Program</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Support</h5>
+                    <ul class="flex flex-col gap-4 text-slate-500 dark:text-slate-400">
+                        <li><a href="contact.html" class="hover:text-primary transition-colors">Contact Us</a></li>
+                        <li><a href="faq.html" class="hover:text-primary transition-colors">FAQ</a></li>
+                        <li><a href="terms.html" class="hover:text-primary transition-colors">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Newsletter</h5>
+                    <p class="text-slate-500 dark:text-slate-400 mb-6 text-sm">Subscribe to get updates on new services and discounts.</p>
+                    <form class="flex gap-2">
+                        <input type="email" placeholder="Email address" class="bg-slate-100 dark:bg-white/5 border-none rounded-xl px-4 py-3 text-sm w-full focus:ring-2 focus:ring-primary outline-none">
+                        <button class="bg-primary text-black p-3 rounded-xl hover:bg-primary-dark transition-colors"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-12 border-t border-slate-100 dark:border-border-dark flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
+                <p>&copy; 2024 Wemoo Premium SMM. All rights reserved.</p>
+                <div class="flex gap-8">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" class="h-4 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-5 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin" class="h-6 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script type="module" src="script.js"></script>

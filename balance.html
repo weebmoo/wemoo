@@ -1,64 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Funds - Wemoo</title>
+    <title>Add Funds | Wemoo Premium SMM</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="loader" class="loader-container"><span class="loader"></span></div>
+<body class="bg-white dark:bg-bg-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <span class="text-sm font-medium animate-pulse">Wemoo Premium</span>
+        </div>
+    </div>
+
+    <!-- Notification -->
     <div id="notification" class="notification"></div>
 
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">Wemoo</div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="order.html"><i class="fas fa-plus-circle"></i> New Order</a></li>
-                <li><a href="services.html"><i class="fas fa-list"></i> Services</a></li>
-                <li><a href="orders.html"><i class="fas fa-history"></i> Orders History</a></li>
-                <li><a href="balance.html" class="active"><i class="fas fa-wallet"></i> Add Funds</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#" id="logout-btn" class="btn btn-outline" style="width: 100%;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-card-dark border-r border-slate-100 dark:border-border-dark translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <div class="flex flex-col h-full p-6">
+                <div class="flex items-center justify-between mb-12">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold text-lg">W</div>
+                        <span class="text-xl font-display font-bold tracking-tighter">Wemoo<span class="text-primary">.</span></span>
+                    </a>
+                    <button id="sidebar-close" class="lg:hidden text-xl p-2"><i class="fas fa-times"></i></button>
+                </div>
+
+                <nav class="flex-grow space-y-2">
+                    <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-chart-pie w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="order.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-plus-circle w-6"></i>
+                        <span>New Order</span>
+                    </a>
+                    <a href="orders.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-list-ul w-6"></i>
+                        <span>Orders History</span>
+                    </a>
+                    <a href="services.html" class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                        <i class="fas fa-tags w-6"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="balance.html" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary/10 text-primary font-bold transition-all">
+                        <i class="fas fa-wallet w-6"></i>
+                        <span>Add Funds</span>
+                    </a>
+                </nav>
+
+                <div class="mt-auto pt-6 border-t border-slate-100 dark:border-border-dark">
+                    <a href="#" id="logout-btn" class="flex items-center gap-4 px-4 py-3 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all">
+                        <i class="fas fa-sign-out-alt w-6"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
             </div>
         </aside>
 
-        <main class="main-content">
-            <header class="top-header">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <button id="mobile-toggle" class="mobile-toggle"><i class="fas fa-bars"></i></button>
-                    <h1 style="font-size: 1.5rem;">Add Funds</h1>
+        <!-- Main Content -->
+        <main class="flex-grow lg:ml-72 p-6 md:p-10">
+            <!-- Top Header -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+                <div>
+                    <h1 class="text-3xl font-display font-bold tracking-tight mb-2">Add Funds</h1>
+                    <p class="text-slate-500 dark:text-slate-400">Top up your account balance to place new orders.</p>
                 </div>
-                <div class="user-info">
-                    <div class="balance-badge">Balance: <span class="balance-value">$0.00</span></div>
+                
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <button id="theme-toggle" class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <div class="flex items-center gap-4 px-6 py-3 bg-primary/10 border border-primary/20 rounded-2xl flex-grow md:flex-grow-0">
+                        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest font-bold text-primary/60">Balance</div>
+                            <div class="text-xl font-display font-bold balance-value">$0.00</div>
+                        </div>
+                    </div>
+                    <button id="mobile-toggle" class="lg:hidden p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </header>
 
-            <div class="form-card">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <i class="fas fa-wallet" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
-                    <h2>Current Balance: <span class="balance-value">$0.00</span></h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="card p-8 md:p-12">
+                        <div class="text-center mb-12">
+                            <div class="w-20 h-20 bg-primary/10 text-primary rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h2 class="text-3xl font-display font-bold">Current Balance: <span class="balance-value text-primary">$0.00</span></h2>
+                        </div>
+
+                        <form class="space-y-8">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Payment Method</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <label class="relative flex flex-col items-center gap-3 p-6 bg-slate-50 dark:bg-white/5 border-2 border-primary rounded-2xl cursor-pointer transition-all">
+                                        <input type="radio" name="payment" class="hidden" checked>
+                                        <i class="fab fa-paypal text-2xl text-[#003087]"></i>
+                                        <span class="text-xs font-bold">PayPal</span>
+                                        <div class="absolute top-2 right-2 w-4 h-4 bg-primary rounded-full flex items-center justify-center text-[8px] text-black">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                    </label>
+                                    <label class="relative flex flex-col items-center gap-3 p-6 bg-slate-50 dark:bg-white/5 border-2 border-transparent hover:border-slate-200 dark:hover:border-white/10 rounded-2xl cursor-pointer transition-all">
+                                        <input type="radio" name="payment" class="hidden">
+                                        <i class="fab fa-bitcoin text-2xl text-[#f7931a]"></i>
+                                        <span class="text-xs font-bold">Crypto</span>
+                                    </label>
+                                    <label class="relative flex flex-col items-center gap-3 p-6 bg-slate-50 dark:bg-white/5 border-2 border-transparent hover:border-slate-200 dark:hover:border-white/10 rounded-2xl cursor-pointer transition-all">
+                                        <input type="radio" name="payment" class="hidden">
+                                        <i class="fas fa-credit-card text-2xl text-slate-500"></i>
+                                        <span class="text-xs font-bold">Card</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="amount" class="block text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Amount (USD)</label>
+                                <div class="relative">
+                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-display font-bold text-slate-400">$</span>
+                                    <input type="number" id="amount" placeholder="Min: 5.00" value="10" class="w-full pl-12 pr-6 py-5 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-border-dark rounded-2xl focus:ring-2 focus:ring-primary outline-none transition-all text-2xl font-display font-bold">
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary w-full py-5 text-xl" onclick="alert('Payment gateway integration required for real transactions.')">Proceed to Payment <i class="fas fa-arrow-right ml-2"></i></button>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Payment Method</label>
-                    <select class="form-control">
-                        <option>PayPal (Automatic)</option>
-                        <option>Crypto (BTC, ETH, USDT)</option>
-                        <option>Credit/Debit Card</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Amount (USD)</label>
-                    <input type="number" class="form-control" placeholder="Min: $5.00" value="10">
-                </div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="alert('Payment gateway integration required for real transactions.')">Pay Now</button>
-                
-                <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary);">
-                    <p><strong>Note:</strong> Funds are added instantly after successful payment. If you encounter any issues, please contact our support team.</p>
+                <div class="lg:col-span-1 space-y-8">
+                    <div class="card bg-slate-900 text-white border-none relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <h3 class="text-xl font-display font-bold mb-6 relative z-10">Payment Info</h3>
+                        <ul class="space-y-4 text-sm text-slate-400 relative z-10">
+                            <li class="flex gap-3">
+                                <i class="fas fa-info-circle text-primary mt-1"></i>
+                                <span>Minimum deposit is <strong>$5.00</strong>.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fas fa-info-circle text-primary mt-1"></i>
+                                <span>Funds are added <strong>instantly</strong> after payment.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fas fa-info-circle text-primary mt-1"></i>
+                                <span>Crypto payments require 3 confirmations.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-xl font-display font-bold mb-6">Recent Payments</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center text-sm">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-emerald-500/10 text-emerald-500 rounded-lg flex items-center justify-center text-xs">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">PayPal Deposit</div>
+                                        <div class="text-[10px] text-slate-500">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="font-bold text-emerald-500">+$50.00</div>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-emerald-500/10 text-emerald-500 rounded-lg flex items-center justify-center text-xs">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">Crypto Deposit</div>
+                                        <div class="text-[10px] text-slate-500">Yesterday</div>
+                                    </div>
+                                </div>
+                                <div class="font-bold text-emerald-500">+$120.00</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
